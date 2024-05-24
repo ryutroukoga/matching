@@ -2,40 +2,45 @@
 @section('content')
 <h1 class="text-center">レビュー詳細画面</h1>
 <div class="row">
-    <div class="col align-self-start">
+    <div class="col align-self-center">
         <div class="card">
             <div class="card-body">
                 <table class='table'>
                     <tbody>
                         <tr>
-                            <th scope="col">ユーザー名</th>
+                            <th scope="col">ユーザー名：{{ $user->name }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">タイトル</th>
+                            <th scope="col">タイトル：{{ $review['title'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">コメント</th>
+                            <th scope="col">コメント：{{ $review['comment'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">点数</th>
+                            <th scope="col">評価：{{ $review['score'] }}</th>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <div class="col align-self-center">
+    <div class="col align-self-start">
         <div class="card">
             <div class="card-body">
                 <tr>
-                    <th scope="col">平均点</th>
+                    <th scope="col">{{ $review['image'] }}</th>
                 </tr>
             </div>
         </div>
     </div>
-    <div class="col align-self-end">
-        <button class="btn btn-secondary" type="button">違　反　報　告　す　る</button>
-        <a href="">店舗詳細画面へ</a>
+    <div class="d-flex justify-content-evenly mt-3">
+        <a href="{{ route('shopdetail',['shopdetail' => $review['shop_id']]) }}">
+            <button type="button" class="btn btn-primary">店　舗　詳　細　へ</button>
+        </a>
+        <form action="" method="post">
+            @csrf
+            <button class="btn btn-secondary" type="button">違　反　報　告　す　る</button>
+        </form>
     </div>
 </div>
 @endsection

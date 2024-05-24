@@ -8,22 +8,25 @@
                 <h1 class="text-center">プロフィール編集</h1>
             </div>
             <div class="mb-3">
-                <label for="name">新ユーザー名</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="ユーザー名">
+                <form action="{{ route('profileupdate') }}" method="post">
+                    @csrf
+                    <label for="name">新ユーザー名</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="ユーザー名" value="{{ old('name',Auth::user()->name) }}">
             </div>
             <div class="mb-3">
-                <label for="password">新しいパスワード</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="パスワード入力">
+                <label for="password" class="form-label">新しいパスワード</label>
+                <input type="password" class="form-control" id="password" name="password">
             </div>
             <div class="mb-3">
-                <label for="password-confirm">新しいパスワード再入力</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="パスワード再度入力">
+                <label for="password_confirmation" class="form-label">パスワード確認</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
             </div>
         </div>
         <div class="text-center">
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">変更完了</button>
             </div>
+            </form>
         </div>
     </div>
 </div>

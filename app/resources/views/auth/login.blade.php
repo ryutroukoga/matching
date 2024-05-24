@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     <div class="col col-md-offset-3 col-md-6">
       <nav class="card mt-5">
-        <div class="card-header">ログイン</div>
+        <div class="card-header text-center">ログイン</div>
         <div class="card-body">
           @if($errors->any())
           <div class="alert alert-danger">
@@ -20,23 +20,20 @@
               <label for="email">メールアドレス</label>
               <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" />
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="password">パスワード</label>
               <input type="password" class="form-control" id="password" name="password" />
             </div>
-            <div class="text-center">
+            <div class="text-center mt-3">
               <a href="{{ route('password.request') }}">パスワード忘れた方はこちら</a>
             </div>
-            <div class="text-center">
+            <div class="text-center mt-3">
               <button type="submit" class="btn btn-primary">送信</button>
             </div>
           </form>
         </div>
       </nav>
     </div>
-  <!-- </div>
-  <div class="d-flex justify-content-center">
-    <a href="{{ route('shopuser.request') }}">新規店舗アカウント登録の方はこちら</a>
   </div>
-</div> -->
+</div>
 @endsection

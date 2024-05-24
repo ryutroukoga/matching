@@ -19,7 +19,7 @@ class CreateShopsTable extends Migration
             $table->string('address','100');
             $table->string('name','50');
             $table->string('image')->nullable();
-            $table->integer('avarage_score');
+            $table->integer('average_score');
             $table->timestamps();
         });
     }

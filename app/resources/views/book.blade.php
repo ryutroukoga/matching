@@ -19,12 +19,4 @@
         </tr>
     </tbody>
 </table>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button class="btn btn-primary me-md-2" type="button">前</button>
-    <a href="">１</a>
-    <button class="btn btn-primary me-md-2" type="button">次</button>
-</div>
-<div class="text-center">
-    <a href="">プロフィール画面へ</a>
-</div>
 @endsection

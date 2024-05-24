@@ -16,23 +16,23 @@
           @endif
           <form action="{{ route('register') }}" method="POST">
             @csrf
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="name">ユーザー名</label>
               <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" />
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="email">メールアドレス</label>
               <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" />
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="password">パスワード</label>
               <input type="password" class="form-control" id="password" name="password">
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="password-confirm">パスワード（確認）</label>
               <input type="password" class="form-control" id="password-confirm" name="password_confirmation">
             </div>
-            <div class="text-center">
+            <div class="text-center mt-3">
               <button type="submit" class="btn btn-primary">送信</button>
             </div>
           </form>

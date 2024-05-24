@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shop extends Model
 {
-    protected $fillable = ['comment', 'address', 'name', 'image', 'avarage_score'];
-    // public function type()
-    // {
-    //     return $this->belongsTo('App\Type', 'type_id', 'id');
-    // }
+    protected $fillable = ['comment', 'address', 'name', 'image', 'avarage_score','user_id'];
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+    public function review()
+    {
+        return $this->hasOne('App\Review');
+    }
+    
 }

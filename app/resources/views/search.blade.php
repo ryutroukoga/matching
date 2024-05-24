@@ -3,20 +3,18 @@
 <main class="py-4">
     <div class="container text-center">
         <div class="row align-items-start">
-            <form>
+            <form action="{{ route('search') }}" method="GET">
                 <div class="row g-3">
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" placeholder="店舗名、地域など">
+                        @csrf
+                        <input class="form-control" type="text" name="keyword" value="{{ $keyword }}" placeholder="店名、住所">
                     </div>
-
                     <div class="col-md-4">
-                        <select class="form-select" aria-label="Default select example">
-                            <option value='' hidden>点数</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                        <select class="form-control" name="average_score">
+                            <option value="" selected>点数を選択</option>
+                            @for ($i = 1; $i <= 5; $i++) 
+                            <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
                         </select>
                     </div>
                     <div class="col-sm">
@@ -26,50 +24,24 @@
             </form>
         </div>
     </div>
-    <div class="d-flex justify-content-evenly">
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">平均点<br>店舗名<br>店舗住所<br><a href="">詳細</a></p>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach($shops as $shop)
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="{{  $shop->image ?? 'default-image.jpg' }}" class="card-img-left" alt="...">
+                <div class="card-body">
+                    <p class="card-text">平均{{ round($shop->average_score, 1) }}点<br>
+                        {{ $shop->name }}<br>
+                        {{ $shop->address }}<br>
+                        <a href="{{ route('shopdetail',['shopdetail' => $shop['id']])  }}">詳細</a>
+                    </p>
+                </div>
             </div>
         </div>
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">平均点<br>店舗名<br>店舗住所<br><a href="">詳細</a></p>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">平均点<br>店舗名<br>店舗住所<br><a href="">詳細</a></p>
-            </div>
-        </div>
+        @endforeach
     </div>
-    <div class="d-flex justify-content-evenly">
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">平均点<br>店舗名<br>店舗住所<br><a href="">詳細</a></p>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">平均点<br>店舗名<br>店舗住所<br><a href="">詳細</a></p>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">平均点<br>店舗名<br>店舗住所<br><a href="">詳細</a></p>
-            </div>
-        </div>
-    </div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" class="btn btn-info">前</button>
-        <span>＜１ ２ ３ ４ ５ ＞</span>
-        <button type="button" class="btn btn-info">次</button>
+    <div class="d-flex justify-content-center">
+        {{ $shops->links() }}
     </div>
 </main>
 @endsection

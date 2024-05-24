@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-body">
                 <tr>
-                    <th scope="col">平均点</th>
+                    <th scope="col">DB画像</th>
                 </tr>
             </div>
         </div>
@@ -17,24 +17,25 @@
                 <table class='table'>
                     <tbody>
                         <tr>
-                            <th scope="col">平均点</th>
+                            <th scope="col">平均{{ round($averageScore, 1) }}点</th>
                         </tr>
                         <tr>
-                            <th scope="col">店舗名</th>
+                            <th scope="col">{{ $detail['name'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">店舗住所</th>
+                            <th scope="col">{{ $detail['address'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">コメント</th>
+                            <th scope="col">{{ $detail['comment'] }}</th>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="justify-content-center mt-3">
-            <a href="" class="col-3 p-3 mb-2 p-3">新規投稿作成</a>
-            <a href="" class="col-3 p-3 mb-2 p-3">検索結果画面へ</a>
+        <div class="text-center mt-3">
+            <a href="{{ route('newreview',['shopdetail' => $detail['id']]) }}" class="col-3 p-3 mb-2 p-3">
+                <button type="button" class="btn btn-primary btn-lg">新規投稿作成</button>
+            </a>
         </div>
     </div>
     <div class="col align-self-start">
@@ -52,13 +53,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($reviews as $review)
                         <tr>
                             <th scope="col">
-                                <a href="">詳細</a>
+                                <a href="{{ route('review_detail',['reviewdetail' => $review['id']])  }}">詳細</a>
                             </th>
-                            <th scope="col">点数</th>
-                            <th scope="col">ユーザー名</th>
+                            <th scope="col">{{ $review['score'] }}</th>
+                            <th scope="col">{{ $review->user->name }}</th>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

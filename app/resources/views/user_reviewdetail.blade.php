@@ -8,16 +8,13 @@
                 <table class='table'>
                     <tbody>
                         <tr>
-                            <th scope="col">ユーザー名</th>
+                            <th scope="col">タイトル：{{ $detail['title'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">タイトル</th>
+                            <th scope="col">コメント：{{ $detail['comment'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">コメント</th>
-                        </tr>
-                        <tr>
-                            <th scope="col">点数</th>
+                            <th scope="col">評価：{{ $detail['score'] }}点</th>
                         </tr>
                     </tbody>
                 </table>
@@ -28,14 +25,18 @@
         <div class="card">
             <div class="card-body">
                 <tr>
-                    <th scope="col">画像</th>
+                    <th scope="col">{{ $detail['image'] }}</th>
                 </tr>
             </div>
         </div>
     </div>
-    <div class="text-center">
-        <button class="btn btn-secondary" type="button">違　反　報　告　す　る</button>
-        <a href="">店舗詳細画面へ</a>
+    <div class="d-flex justify-content-evenly mt-3">
+        <div class="mb-3">
+            <form action="{{ route('delete.review',['reviewdetail' => $detail['id']]) }}" method="post">
+                @csrf
+                <button type='submit' class="btn btn-danger">投　稿　削　除</button>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

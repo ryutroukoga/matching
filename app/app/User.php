@@ -36,20 +36,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function review()
+    public function reviews()
     {
         return $this->hasMany('App\Review');
     }
 
-    public function shop()
+    public function shops()
     {
         return $this->hasMany('App\Shop');
     }
-    public function violation()
+    public function violations()
     {
         return $this->hasMany('App\Violation');
     }
-    public function book()
+    public function books()
     {
         return $this->hasMany('App\Bookmark');
     }

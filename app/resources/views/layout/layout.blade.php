@@ -33,6 +33,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('mainpage') }}">メインページへ</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('profile') }}">プロフィールへ</a>
+                    </li>
                     <a href="#" id="logout" class="nav-link">ログアウト</a>
                 </ul>
                 <form action="{{ route('logout') }}" id="logout-form" method="POST" style="display: none;">
