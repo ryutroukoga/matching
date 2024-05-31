@@ -7,13 +7,12 @@
                 <div class="row g-3">
                     <div class="col-sm-5">
                         @csrf
-                        <input class="form-control" type="text" name="keyword" value="{{ $keyword }}" placeholder="店名、住所">
+                        <input class="form-control" type="text" name="keyword" value="{{ old('keyword') }}" placeholder="店名、住所">
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control" name="average_score">
+                        <select class="form-control" name="average_score" value="">
                             <option value="" selected>点数を選択</option>
-                            @for ($i = 1; $i <= 5; $i++) 
-                            <option value="{{ $i }}">{{ $i }}</option>
+                            @for ($i = 1; $i <= 5; $i++) <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                         </select>
                     </div>
@@ -28,12 +27,13 @@
         @foreach($shops as $shop)
         <div class="col">
             <div class="card" style="width: 18rem;">
-                <img src="{{  $shop->image ?? 'default-image.jpg' }}" class="card-img-left" alt="...">
                 <div class="card-body">
-                    <p class="card-text">平均{{ round($shop->average_score, 1) }}点<br>
-                        {{ $shop->name }}<br>
-                        {{ $shop->address }}<br>
-                        <a href="{{ route('shopdetail',['shopdetail' => $shop['id']])  }}">詳細</a>
+                    <p class="card-text">
+                        評価：{{ $shop->score }}点<br>
+                        タイトル：{{ $shop->title }}<br>
+                        コメント：{{ $shop->comment }}<br>
+                        住所：{{ $shop->shop->address }}<br>
+                        <a href="{{ route('shopdetail',['shopdetail' => $shop->shop['id']])  }}">詳細</a>
                     </p>
                 </div>
             </div>

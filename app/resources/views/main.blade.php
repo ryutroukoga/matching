@@ -25,15 +25,16 @@
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach($shops as $shop)
+        @foreach($reviews as $review)
         <div class="col">
             <div class="card" style="width: 18rem;">
-                <img src="{{  $shop->image ?? 'default-image.jpg' }}" class="card-img-left" alt="...">
                 <div class="card-body">
-                    <p class="card-text">平均{{ round($shop->average_score, 1) }}点<br>
-                        {{ $shop->name }}<br>
-                        {{ $shop->address }}<br>
-                        <a href="{{ route('shopdetail',['shopdetail' => $shop['id']])  }}">詳細</a>
+                    <p class="card-text">
+                        評価：{{ $review['score'] }}点<br>
+                        タイトル：{{ $review['title'] }}<br>
+                        コメント：{{ $review['comment'] }}<br>
+                        住所：{{ $review->shop['address'] }}<br>
+                        <a href="{{ route('shopdetail',['shopdetail' => $review->shop['id']])  }}">詳細</a>
                     </p>
                 </div>
             </div>
@@ -41,7 +42,7 @@
         @endforeach
     </div>
     <div class="d-flex justify-content-center mt-3">
-        {{ $shops->links() }}
+        {{ $reviews->links() }}
     </div>
 </main>
 @endsection

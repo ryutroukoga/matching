@@ -17,12 +17,22 @@ class DisplayController extends Controller
     // メインページ表示
     public function home()
     {
-        $shops = Shop::with('review')
-            ->withCount(['review as average_score' => function ($query) {
-                $query->select(DB::raw('coalesce(avg(score),0)'));
-            }])->paginate(6);
-        return view('main', ['shops' => $shops]);
+        $user = Auth::user();
+        if ($user && $user->stop_flg == 1) {
+            Auth::logout();
+            return redirect()->route('user.stop');
+        }
+        if ($user && $user->role == 2) {
+            return redirect()->route('shop.main');
+        }
+        if ($user && $user->role == 1) {
+            return redirect()->route('manager');
+        } else {
+            $reviews = Review::with('shop')->where('del_flg', 0)->orderBy('created_at', 'desc')->paginate(6);
+            return view('main', ['reviews' => $reviews]);
+        }
     }
+
     // プロフィール画面遷移
     public function profile()
     {
@@ -85,7 +95,90 @@ class DisplayController extends Controller
     {
         return view('user_reviewdetail', ['detail' => $reviewdetail]);
     }
-    public function showLinkRequestForm(){
+    // パスワード再設定リンク送信画面遷移
+    public function showLinkRequestForm()
+    {
         return view('pas_url');
+    }
+    // 利用停止画面
+    public function userstop()
+    {
+        return view('stop');
+    }
+    // 違反報告画面
+    public function violation(Review $reviewdetail)
+    {
+        return view('violation', ['detail' => $reviewdetail]);
+    }
+
+    // ---------------------------------------------------------------------------
+    // 店舗アカウント登録画面
+    public function shoplogin()
+    {
+        return view('shop_user');
+    }
+    // shopメイン表示
+    public function shophome()
+    {
+        return view('shop_main');
+    }
+    // 店舗新規追加画面
+    public function newshop()
+    {
+        return view('shop_post');
+    }
+    // 自店舗レビュー一覧
+    public function shopreview()
+    {
+        $user = Auth::user();
+        $shopId = $user->shops()->pluck('id')->first();
+
+        // 自店舗に関連するレビューを取得
+        $reviews = Review::where('shop_id', $shopId)
+            ->where('del_flg', 0)
+            ->paginate(10);
+
+        return view('shop_review', [
+            'reviews' => $reviews,
+        ]);
+    }
+
+    // 自店舗レビュー詳細画面
+    public function myshopreviewdetail(Review $reviewdetail)
+    {
+        $user = $reviewdetail->user()->first();
+        return view('myshopreview_detail', [
+            'review' => $reviewdetail,
+            'user' => $user,
+        ]);
+    }
+    // 違反報告画面遷移
+    public function shopviolation(Review $reviewdetail)
+    {
+        return view('shop_violation', ['detail' => $reviewdetail]);
+    }
+    // ---------------------------------------------------------------------------
+    //   管理者
+    public function managermain()
+    {
+        return view('manager');
+    }
+    // ユーザーリストへ
+    public function userlist()
+    {
+        $users = User::where('role', 0)->withCount(['reviews' => function ($query) {
+            $query->where('del_flg', 1);
+        }])->orderBy('reviews_count', 'desc')
+            ->paginate(10);
+        return view('user_list', ['users' => $users]);
+    }
+
+    // レビューリストへ
+    public function reviewlist()
+    {
+        $reviews = Review::withCount('violations')
+            ->orderBy('violations_count', 'desc')
+            ->paginate(20);
+        return view('review_list', ['reviews' => $reviews]);
     }
 }

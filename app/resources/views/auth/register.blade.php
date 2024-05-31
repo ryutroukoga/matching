@@ -14,7 +14,7 @@
             @endforeach
           </div>
           @endif
-          <form action="{{ route('register') }}" method="POST">
+          <form action="{{ route('login.con') }}" method="POST">
             @csrf
             <div class="form-group mt-3">
               <label for="name">ユーザー名</label>

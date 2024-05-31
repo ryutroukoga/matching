@@ -1,4 +1,4 @@
-@extends('layout.layout')
+@extends('layout.managerlayout')
 @section('content')
 
 <div class="container">
@@ -7,10 +7,10 @@
         <div class="text-center">
             <div class="d-grid gap-2 col-6 mx-auto">
                 <div class="p-3 text-primary-emphasis bs-success-border-subtle border border-primary-subtle rounded-3">
-                    <a href="">ユーザーリストへ</a>
+                    <a href="{{ route('user.list') }}" class="link-underline-light fw-bold">ユーザーリストへ</a>
                 </div>
                 <div class="p-3 text-primary-emphasis bs-success-border-subtle border border-primary-subtle rounded-3">
-                    <a href="">投稿リストへ</a>
+                    <a href="{{ route('review.list') }}" class="link-underline-light fw-bold">投稿リストへ</a>
                 </div>
             </div>
         </div>

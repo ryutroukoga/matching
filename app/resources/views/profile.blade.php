@@ -57,8 +57,8 @@
                 <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
                     <p class="card-text">
-                        {{ $review['score'] }}<br>
-                        {{ $review['title'] }}<br>
+                        評価：{{ $review['score'] }}<br>
+                        タイトル：{{ $review['title'] }}<br>
                         <a href="{{ route('reviewdetail',['reviewdetail' => $review['id']]) }}">詳細</a>
                     </p>
                 </div>

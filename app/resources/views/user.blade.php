@@ -25,7 +25,7 @@
             </div>
 
             <div class="mb-3">
-                <form action="{{ route('userdelete',['user' => Auth::user()->id]) }}" method="post">
+                <form action="{{ route('userdelete',['user' => Auth::user()->id]) }}" method="post" onsubmit="return confirmDelete()">
                     @csrf
                     <button type="submit" class="btn btn-danger">退　会</button>
                 </form>
@@ -33,4 +33,9 @@
         </div>
     </div>
 </div>
+<script>
+    function confirmDelete() {
+        return confirm('本当に削除しますか？この操作は元に戻せません。退会してしまうと登録いただいた情報はすべて削除されます。');
+    }
+</script>
 @endsection

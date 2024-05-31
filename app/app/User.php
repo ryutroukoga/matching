@@ -45,10 +45,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Shop');
     }
+
     public function violations()
     {
         return $this->hasMany('App\Violation');
     }
+    
     public function books()
     {
         return $this->hasMany('App\Bookmark');

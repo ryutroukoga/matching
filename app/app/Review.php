@@ -15,4 +15,9 @@ class Review extends Model
     {
         return $this->belongsTo('App\User');
     }
+    
+    public function violations()
+    {
+        return $this->hasMany('App\Violation');
+    }
 }

@@ -12,6 +12,13 @@
                 {{ session('status') }}
             </div>
             @endif
+            @if($errors->any())
+            <div class="alert alert-danger">
+                @foreach($errors->all() as $message)
+                <p>{{ $message }}</p>
+                @endforeach
+            </div>
+            @endif
             <h4 class="text-center">入力いたただいたメールアドレスに、<br>
                 再設定用のURLが届きます。<br>
                 届いたURLから再度設定を行って下さい。

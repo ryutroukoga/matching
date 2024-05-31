@@ -8,7 +8,6 @@
                 <h3 class="text-center">現在このアカウントは管理者により、<br>
                     利用停止されているためご利用できません。
                 </h3>
-                <div class="text-center"><a href="">ログイン画面へ</a></div>
             </div>
         </div>
     </div>

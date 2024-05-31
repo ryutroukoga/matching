@@ -1,6 +1,7 @@
-@extends('layout.layout')
+@extends('layout.managerlayout')
 @section('content')
 <main>
+    <h1 class="text-center">投稿リスト</h1>
     <table class="table">
         <thead>
             <tr>
@@ -11,18 +12,22 @@
         </thead>
         <tbody>
             <tr>
-                <td>Mark</td>
-                <td>Otto</td>
-                <th scope="row">
-                    <button type="button" class="btn btn-warning">非表示</button>
-                </th>
+                @foreach ($reviews as $review)
+            <tr>
+                <td>{{ $review['title'] }}</td>
+                <td>{{ $review->violations_count }}</td>
+                <form action="{{ route('hide.review', ['reviewdetail'=> $review['id']]) }}" method="POST">
+                    @csrf
+                    <th scope="row">
+                        <button type="submit" class="btn btn-warning btn-sm">非表示</button>
+                    </th>
+                </form>
             </tr>
+            @endforeach
         </tbody>
     </table>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button type="button" class="btn btn-info">前</button>
-    <span>＜１ ２ ３ ４ ５ ＞</span>
-    <button type="button" class="btn btn-info">次</button>
+    <div class="justiny-content-center">
+        {{ $reviews->links() }}
     </div>
 </main>
 @endsection

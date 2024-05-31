@@ -5,6 +5,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col align-self-start">
+                @if($errors->any())
+                <div class="alert alert-danger">
+                    @foreach($errors->all() as $message)
+                    <p>{{ $message }}</p>
+                    @endforeach
+                </div>
+                @endif
                 <div class="mb-3">
                     <form action="{{ route('post') }}" method="post">
                         @csrf
@@ -15,7 +22,14 @@
                 <textarea class='form-control' name='comment' value="{{ old('comment') }}"></textarea>
                 <div class="col-md-4">
                     <label for='score' class='mt-2'>点数(１~５で入力)</label>
-                    <input type="number" class="form-control" min="1" max="5" name="score" placeholder="点数" value="{{ old('score') }}">
+                    <div class="col-md-4">
+                        <select class="form-control" name="score">
+                            <option value="" selected>点数</option>
+                            @for ($i = 1; $i <= 5; $i++) 
+                            <option value="{{ $i }}">{{ $i }}</option>
+                             @endfor
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col align-self-start">

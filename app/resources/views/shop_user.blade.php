@@ -14,7 +14,7 @@
                 @endforeach
             </div>
             @endif
-            <form action="{{ route('login') }}" method="POST">
+            <form action="{{ route('shop.logincon') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <div class="mb-3">

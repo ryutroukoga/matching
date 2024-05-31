@@ -31,14 +31,9 @@
                 <ul class="nav justify-content-end">
                     <span class="fs-4">{{ Auth::user()->name }}</span>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('mainpage') }}">メインページへ</a>
+                        <a class="nav-link" href="{{ route('shop.main') }}">店舗メインページへ</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('profile') }}">プロフィールへ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" id="logout" class="nav-link">ログアウト</a>
-                    </li>
+                    <a href="#" id="logout" class="nav-link">ログアウト</a>
                 </ul>
                 <form action="{{ route('logout') }}" id="logout-form" method="POST" style="display: none;">
                     @csrf
@@ -57,9 +52,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('register')}}">新規会員登録</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('shop.login') }}">店舗アカウント新規登録画面</a>
                     </li>
                 </ul>
                 @endif

@@ -6,7 +6,9 @@
         <div class="card">
             <div class="card-body">
                 <tr>
-                    <th scope="col">DB画像</th>
+                    <th scope="col">
+                    <img src="{{ asset('storage/' . $detail['image']) }}" class="img-fluid" alt="店舗画像">
+                    </th>
                 </tr>
             </div>
         </div>
@@ -17,16 +19,16 @@
                 <table class='table'>
                     <tbody>
                         <tr>
-                            <th scope="col">平均{{ round($averageScore, 1) }}点</th>
+                            <th scope="col">評価：平均{{ round($averageScore, 1) }}点</th>
                         </tr>
                         <tr>
-                            <th scope="col">{{ $detail['name'] }}</th>
+                            <th scope="col">店舗名：{{ $detail['name'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">{{ $detail['address'] }}</th>
+                            <th scope="col">住所：{{ $detail['address'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">{{ $detail['comment'] }}</th>
+                            <th scope="col">店舗コメント：{{ $detail['comment'] }}</th>
                         </tr>
                     </tbody>
                 </table>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shop extends Model
 {
-    protected $fillable = ['comment', 'address', 'name', 'image', 'avarage_score','user_id'];
+    protected $fillable = ['comment', 'address', 'name', 'image','user_id'];
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -15,5 +15,4 @@ class Shop extends Model
     {
         return $this->hasOne('App\Review');
     }
-    
 }

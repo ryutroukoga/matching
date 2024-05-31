@@ -8,13 +8,10 @@
                 <table class='table'>
                     <tbody class="text-center">
                         <tr>
-                            <th scope="col">ユーザー名:</th>
+                            <th scope="col">ユーザー名:{{ $user['name'] }}</th>
                         </tr>
                         <tr>
-                            <th scope="col">メールアドレス:</th>
-                        </tr>
-                        <tr>
-                            <th scope="col">パスワード:</th>
+                            <th scope="col">メールアドレス:{{ $user['email'] }}</th>
                         </tr>
                     </tbody>
                 </table>
@@ -22,10 +19,9 @@
         </div>
         <div class="text-center">
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">登　録</button>
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-secondary">戻　る</button>
+                <a href="/">
+                    <button type="submit" class="btn btn-primary">登　録</button>
+                </a>
             </div>
         </div>
     </div>

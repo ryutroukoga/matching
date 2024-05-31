@@ -25,18 +25,25 @@
         <div class="card">
             <div class="card-body">
                 <tr>
-                    <th scope="col">{{ $detail['image'] }}</th>
+                    <th scope="col">
+                        <img src="{{ $detail['image'] }}" class="img-fluid" alt="レビュー画像">
+                    </th>
                 </tr>
             </div>
         </div>
     </div>
     <div class="d-flex justify-content-evenly mt-3">
         <div class="mb-3">
-            <form action="{{ route('delete.review',['reviewdetail' => $detail['id']]) }}" method="post">
+            <form action="{{ route('delete.review',['reviewdetail' => $detail['id']]) }}" method="post" onsubmit="return confirmDelete()">
                 @csrf
                 <button type='submit' class="btn btn-danger">投　稿　削　除</button>
             </form>
         </div>
     </div>
 </div>
+<script>
+    function confirmDelete() {
+        return confirm('レビュー内容が完全に削除されます。本当に削除しますか？');
+    }
+</script>
 @endsection

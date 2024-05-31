@@ -152,6 +152,9 @@ return [
         'score'=> '点数',
         'name'=> '名前',
         'address'=> '住所',
+        'email'=>'メールアドレス',
+        'password'=>'パスワード',
+        'password-confirm'=>'パスワード再入力',
     ],
 
 ];

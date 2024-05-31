@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateViolationsTable extends Migration
+class AddReviewIdViolations extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateViolationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('violations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::table('violations', function (Blueprint $table) {
             $table->integer('review_id');
-            $table->string('comment')->nullable();
-            $table->timestamps();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateViolationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('violations');
+        Schema::table('violations', function (Blueprint $table) {
+            $table->dropColumn('review_id');
+        });
     }
 }
