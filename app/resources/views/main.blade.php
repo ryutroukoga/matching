@@ -1,5 +1,14 @@
 @extends('layout.layout')
 @section('content')
+@if (session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@elseif (session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
 <main class="py-4">
     <div class="container text-center">
         <div class="row align-items-start">
@@ -12,8 +21,7 @@
                     <div class="col-md-4">
                         <select class="form-control" name="average_score">
                             <option value="" selected>点数を選択</option>
-                            @for ($i = 1; $i <= 5; $i++) 
-                            <option value="{{ $i }}">{{ $i }}</option>
+                            @for ($i = 1; $i <= 5; $i++) <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                         </select>
                     </div>

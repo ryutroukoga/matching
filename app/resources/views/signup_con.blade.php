@@ -19,7 +19,7 @@
         </div>
         <div class="text-center">
             <div class="mb-3">
-                <a href="/">
+                <a href="{{ route('login') }}">
                     <button type="submit" class="btn btn-primary">登　録</button>
                 </a>
             </div>

@@ -7,6 +7,13 @@
             <div class="mb-3">
                 <h1 class="text-center">プロフィール編集</h1>
             </div>
+            @if($errors->any())
+            <div class="alert alert-danger">
+                @foreach($errors->all() as $message)
+                <p>{{ $message }}</p>
+                @endforeach
+            </div>
+            @endif
             <div class="mb-3">
                 <form action="{{ route('profileupdate') }}" method="post">
                     @csrf

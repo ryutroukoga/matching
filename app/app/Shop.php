@@ -15,4 +15,8 @@ class Shop extends Model
     {
         return $this->hasOne('App\Review');
     }
+    protected $policies = [
+        // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Shop' => 'App\Policies\ShopPolicy',
+    ];
 }

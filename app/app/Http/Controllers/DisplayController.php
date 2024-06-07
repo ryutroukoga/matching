@@ -88,8 +88,13 @@ class DisplayController extends Controller
     // book画面遷移
     public function book()
     {
-        return view('book');
+        $user_id = Auth::id();
+        $bookmarkedReviews = Review::whereHas('books', function ($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        })->get();
+        return view('book', compact('bookmarkedReviews'));
     }
+    // 
     // 自分の投稿画面
     public function reviewdetail(Review $reviewdetail)
     {

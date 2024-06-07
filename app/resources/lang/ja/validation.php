@@ -103,7 +103,7 @@ return [
     'required_with_all' => 'The :attribute field is required when :values are present.',
     'required_without' => 'The :attribute field is required when :values is not present.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
-    'same' => 'The :attribute and :other must match.',
+    'same' => ':attribute欄と:other欄が一致してません。',
     'size' => [
         'numeric' => 'The :attribute must be :size.',
         'file' => 'The :attribute must be :size kilobytes.',
@@ -130,8 +130,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'unique' => 'このメールアドレスは既に使用されています。',
         ],
     ],
 
@@ -147,14 +147,14 @@ return [
     */
 
     'attributes' => [
-        'title'=> 'タイトル',
-        'comment'=> 'コメント',
-        'score'=> '点数',
-        'name'=> '名前',
-        'address'=> '住所',
-        'email'=>'メールアドレス',
-        'password'=>'パスワード',
-        'password-confirm'=>'パスワード再入力',
+        'title' => 'タイトル',
+        'comment' => 'コメント',
+        'score' => '点数',
+        'name' => '名前',
+        'address' => '住所',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+        'password_confirmation' => 'パスワード再入力',
     ],
 
 ];

@@ -7,13 +7,18 @@
                 <div class="row g-3">
                     <div class="col-sm-5">
                         @csrf
-                        <input class="form-control" type="text" name="keyword" value="{{ old('keyword') }}" placeholder="店名、住所">
+                        <input class="form-control" type="text" name="keyword" value="{{ $keyword }}" placeholder="店名、住所">
                     </div>
                     <div class="col-md-4">
                         <select class="form-control" name="average_score" value="">
                             <option value="" selected>点数を選択</option>
-                            @for ($i = 1; $i <= 5; $i++) <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
+                            @for ($i = 1; $i <= 5; $i++) 
+                            @if($average_score==$i) 
+                            <option value="{{ $i }}" selected>{{ $i }}</option>
+                            @else
+                            <option value="{{ $i }}">{{ $i }}</option>
+                            @endif
+                            @endfor
                         </select>
                     </div>
                     <div class="col-sm">
@@ -41,7 +46,7 @@
         @endforeach
     </div>
     <div class="d-flex justify-content-center">
-        {{ $shops->links() }}
+        {{ $shops->appends(request()->query())->links() }}
     </div>
 </main>
 @endsection

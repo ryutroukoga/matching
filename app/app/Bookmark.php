@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bookmark extends Model
 {
-    protected $fillable = ['shop_id','user_id'];
-    public function shop()
+    protected $fillable = ['review_id', 'user_id'];
+    public function review()
     {
-        return $this->belongsTo('App\Shop');
+        return $this->belongsTo('App\Review');
     }
     public function user()
     {
         return $this->belongsTo('App\User');
     }
+    
 }

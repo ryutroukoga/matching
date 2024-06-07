@@ -35,9 +35,19 @@ Route::get('password/reset', [DisplayController::class, 'showLinkRequestForm'])-
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 // 利用停止画面
 Route::get('/user/stop', [DisplayController::class, 'userstop'])->name('user.stop');
+// -----------------------------------------------------------------------------------------------------------------------
+// メインページ表示
+Route::get('/', [DisplayController::class, 'home']);
+// 他ユーザーの詳細画面
+Route::get('/review/{reviewdetail}/detail', [DisplayController::class, 'userreviewdetail'])->name('review_detail');
+// 店舗詳細遷移
+Route::get('/{shopdetail}/shopdetail', [DisplayController::class, 'shopdetail'])->name('shopdetail');
+// 検索機能
+Route::get('/search', [RegistrationController::class, 'search'])->name('search');
+// ナビのメイン
+Route::get('/main', [DisplayController::class, 'home'])->name('mainpage');
+
 Route::group(['middleware' => 'auth'], function () {
-    // メインページ表示
-    Route::get('/', [DisplayController::class, 'home']);
     // shopメインへ
     Route::get('/shop/main', [DisplayController::class, 'shophome'])->name('shop.main');
     // 管理者ユーザー画面
@@ -50,47 +60,41 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/book', [DisplayController::class, 'book'])->name('book');
     // プロフィール編集画面へ
     Route::get('/profileuser', [DisplayController::class, 'profileuser'])->name('profileuser');
+    // 違反報告画面へ　ユーザー機能
+    Route::get('user/violation/{reviewdetail}/page', [DisplayController::class, 'violation'])->name('violation');
+    // 違反報告画面へ　店舗機能
+    Route::get('shop/violation/{reviewdetail}/page', [DisplayController::class, 'shopviolation'])->name('shop.violation');
 
-    // Route::group(['middleware' => 'can:view,reviewdetail'], function () {
-        // 投稿詳細へ
+    Route::group(['middleware' => 'can:view,reviewdetail'], function () {
+        // 自分の投稿詳細へ
         Route::get('/{reviewdetail}/reviewdetail', [DisplayController::class, 'reviewdetail'])->name('reviewdetail');
         // レビュー削除機能
         Route::post('/{reviewdetail}/reviewdelete', [RegistrationController::class, 'reviewdelete'])->name('delete.review');
         // レビュー非表示機能
         Route::post('review/{reviewdetail}/hide', [RegistrationController::class, 'reviewhide'])->name('hide.review');
-        //  レビュー詳細画面へ
-        Route::get('/review/{reviewdetail}/detail', [DisplayController::class, 'userreviewdetail'])->name('review_detail');
+        // レビュー再表示
+        Route::post('review/{reviewdetail}/open', [RegistrationController::class, 'reviewopen'])->name('open.review');
         // 店舗ユーザーのレビュー詳細画面
         Route::get('/review/{reviewdetail}/detail/myshop', [DisplayController::class, 'myshopreviewdetail'])->name('myshopreviewdetail');
-        // 違反報告画面へ　ユーザー機能
-        Route::get('user/violation/{reviewdetail}/page', [DisplayController::class, 'violation'])->name('violation');
-        // 違反報告画面へ　店舗機能
-        Route::get('shop/violation/{reviewdetail}/page', [DisplayController::class, 'shopviolation'])->name('shop.violation');
-    // });
+    });
 
     Route::group(['middleware' => 'can:view,user'], function () {
         // 退会機能
         Route::post('/user/{user}/delete', [RegistrationController::class, 'userdelete'])->name('userdelete');
         // 利用停止機能
         Route::post('/user/{user}/down', [RegistrationController::class, 'userdown'])->name('user.down');
+        // 利用再開機能
+        Route::post('/user/{user}/up', [RegistrationController::class, 'userup'])->name('user.up');
     });
 
-    // Route::group(['middleware' => 'can:view,shopdetail'], function () {
-        // 店舗詳細遷移
-        Route::get('/{shopdetail}/shopdetail', [DisplayController::class, 'shopdetail'])->name('shopdetail');
-        // 新規レビュー作成遷移
-        Route::get('/reviewpost/{shopdetail}/page', [DisplayController::class, 'newreview'])->name('newreview');
-    // });
+    // 新規レビュー作成遷移
+    Route::get('/reviewpost/{shopdetail}/page', [DisplayController::class, 'newreview'])->name('newreview');
     // 新規レビュー作成
     Route::post('/reviewpost/page', [RegistrationController::class, 'post'])->name('post');
     // ユーザー編集機能
     Route::post('/user/update', [RegistrationController::class, 'userupdate'])->name('userupdate');
     // プロフィール編集機能
     Route::post('/profile/update', [RegistrationController::class, 'profileupdate'])->name('profileupdate');
-    // ナビのメイン
-    Route::get('/main', [DisplayController::class, 'home'])->name('mainpage');
-    // 検索機能
-    Route::get('/search', [RegistrationController::class, 'search'])->name('search');
     // 新規店舗登録画面へ
     Route::get('/shoppost/page', [DisplayController::class, 'newshop'])->name('shop.post');
     // 自店舗レビュー一覧へ
@@ -103,4 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('review/list/page', [DisplayController::class, 'reviewlist'])->name('review.list');
     // 違反報告機能
     Route::post('/violation/report/page', [RegistrationController::class, 'violationreport'])->name('violation.report');
+
+    // ブックマーク機能
+    Route::post('/ajaxlike/page', [RegistrationController::class, 'ajaxlike'])->name('reviews.ajaxlike');
 });

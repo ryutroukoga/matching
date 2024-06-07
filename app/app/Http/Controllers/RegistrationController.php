@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateData;
 use App\Shop;
 use App\Bookmark;
+use App\Http\Requests\CreatePass;
+use App\Http\Requests\CreateProfile;
 use App\Http\Requests\CreateReview;
+use App\Http\Requests\CreateShop;
+use App\Http\Requests\CreateUser;
 use App\User;
 use App\Review;
 use App\Violation;
@@ -25,15 +29,26 @@ class RegistrationController extends Controller
         $keyword = $request->input('keyword');
         $average_score = $request->input('average_score');
         // タイトル、コメント、住所
-        if (!empty($keyword)) {
-            $shoping->where('title', 'LIKE', "%{$keyword}%")
-                ->orWhere('comment', 'LIKE', "%{$keyword}%")
-                ->orWhereHas('shop', function ($query) use ($keyword) {
-                    $query->where('address', 'LIKE', "%{$keyword}%");
-                });
-        }
-        // 点数検索
-        if (!empty($average_score)) {
+        if (!empty($keyword) && !empty($average_score)) {
+            // 両方の条件を満たす場合
+            $shoping->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', "%{$keyword}%")
+                    ->orWhere('comment', 'LIKE', "%{$keyword}%")
+                    ->orWhereHas('shop', function ($query) use ($keyword) {
+                        $query->where('address', 'LIKE', "%{$keyword}%");
+                    });
+            })->where('score', 'LIKE', "%{$average_score}%");
+        } elseif (!empty($keyword)) {
+            // キーワードのみの場合
+            $shoping->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', "%{$keyword}%")
+                    ->orWhere('comment', 'LIKE', "%{$keyword}%")
+                    ->orWhereHas('shop', function ($query) use ($keyword) {
+                        $query->where('address', 'LIKE', "%{$keyword}%");
+                    });
+            });
+        } elseif (!empty($average_score)) {
+            // 点数のみの場合
             $shoping->where('score', 'LIKE', "%{$average_score}%");
         }
         // 作成が新しい順
@@ -64,7 +79,7 @@ class RegistrationController extends Controller
         return redirect('profile');
     }
     // ユーザー編集機能
-    public function userupdate(Request $request)
+    public function userupdate(CreateProfile $request)
     {
         $user = Auth::user();
         $user->name = $request->name;
@@ -79,7 +94,7 @@ class RegistrationController extends Controller
         return redirect('/');
     }
     // パスワード・ユーザー名変更機能
-    public function profileupdate(Request $request)
+    public function profileupdate(CreatePass $request)
     {
         $user = Auth::user();
         $user->name = $request->name;
@@ -88,7 +103,7 @@ class RegistrationController extends Controller
         return redirect('profile')->with('success', 'プロフィールが更新されました');
     }
     // 新規登録＆内容確認画面
-    public function logincon(Request $request)
+    public function logincon(CreateUser $request)
     {
         $user = new User();
         $user->name = $request->name;
@@ -100,7 +115,7 @@ class RegistrationController extends Controller
     }
     // ---------------------------------------------------------------------------
     // 店舗アカウント登録＆内容確認画面
-    public function shoplogincon(Request $request)
+    public function shoplogincon(CreateUser $request)
     {
         $user = new User();
         $user->name = $request->name;
@@ -112,7 +127,7 @@ class RegistrationController extends Controller
         return view('shop_usercon', ['user' => $user]);
     }
     // 店舗新規登録
-    public function postshop(Request $request)
+    public function postshop(CreateShop $request)
     {
         // ログインしているユーザーのIDを取得
         $userId = Auth::id();
@@ -137,7 +152,7 @@ class RegistrationController extends Controller
         $violation->review_id = $request->review_id;
         $violation->user_id = $request->user_id;
         $violation->save();
-        return redirect('/');
+        return redirect()->back();
     }
     // ユーザーの利用停止
     public function userdown(User $user)
@@ -146,7 +161,14 @@ class RegistrationController extends Controller
         $user->save();
         return redirect()->back();
     }
-
+    // ユーザーの利用再開
+    public function userup(User $user)
+    {
+        $user->stop_flg = 0;
+        $user->save();
+        return redirect()->back();
+    }
+    // レビュー非表示機能
     public function reviewhide(Review $reviewdetail)
     {
         $reviewdetail->del_flg = 1;
@@ -157,5 +179,32 @@ class RegistrationController extends Controller
         $user->save();
 
         return redirect()->back();
+    }
+    // レビュー再表示機能
+    public function reviewopen(Review $reviewdetail)
+    {
+        $reviewdetail->del_flg = 0;
+        $reviewdetail->save();
+        return redirect()->back();
+    }
+
+    public function ajaxlike(Request $request)
+    {
+        $user_id = Auth::id();
+        $review_id = $request->review_id;
+        $bookmark = Bookmark::where('user_id', $user_id)->where('review_id', $review_id)->first();
+
+        if ($bookmark) {
+            $bookmark->delete();
+            $bookmarked = false;
+        } else {
+            Bookmark::create([
+                'user_id' => $user_id,
+                'review_id' => $review_id,
+            ]);
+            $bookmarked = true;
+        }
+
+        return response()->json(['bookmarked' => $bookmarked]);
     }
 }

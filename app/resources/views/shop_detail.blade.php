@@ -4,13 +4,7 @@
 <div class="row">
     <div class="col align-self-start">
         <div class="card">
-            <div class="card-body">
-                <tr>
-                    <th scope="col">
-                    <img src="{{ asset('storage/' . $detail['image']) }}" class="img-fluid" alt="店舗画像">
-                    </th>
-                </tr>
-            </div>
+            <img src="{{ asset('storage/' . $detail->image) }}" class="img-thumbnail" alt="店舗画像">
         </div>
     </div>
     <div class="col align-self-center">
@@ -70,4 +64,9 @@
         </div>
     </div>
 </div>
+@if (session('message'))
+    <div class="alert alert-warning">
+        {{ session('message') }}
+    </div>
+@endif
 @endsection
