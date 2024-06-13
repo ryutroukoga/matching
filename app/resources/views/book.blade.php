@@ -4,7 +4,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">★</th>
+            <th scope="col" class="bookmark-btn bookmarked">★</th>
             <th scope="col">店舗名</th>
             <th scope="col">住所</th>
             <th scope="col">タイトル</th>
@@ -13,10 +13,9 @@
     <tbody>
         @foreach($bookmarkedReviews as $review)
         <tr>
-            <td><button class="btn btn-link bookmark-toggle" data-review-id="{{ $review->id }}">
-                    <i class="fas fa-star text-warning"></i></button></td>
-            <td>{{ $review->shop_name }}</td>
-            <td>{{ $review->address }}</td>
+            <td scope="col" class="bookmark-btn bookmarked">★</td>
+            <td>{{ $review->shop->name }}</td>
+            <td>{{ $review->shop->address }}</td>
             <td>{{ $review->title }}</td>
         </tr>
         @endforeach

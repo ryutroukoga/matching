@@ -155,6 +155,7 @@ return [
         'email' => 'メールアドレス',
         'password' => 'パスワード',
         'password_confirmation' => 'パスワード再入力',
+        'formfile' => '画像添付'
     ],
 
 ];

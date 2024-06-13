@@ -70,12 +70,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{reviewdetail}/reviewdetail', [DisplayController::class, 'reviewdetail'])->name('reviewdetail');
         // レビュー削除機能
         Route::post('/{reviewdetail}/reviewdelete', [RegistrationController::class, 'reviewdelete'])->name('delete.review');
-        // レビュー非表示機能
-        Route::post('review/{reviewdetail}/hide', [RegistrationController::class, 'reviewhide'])->name('hide.review');
-        // レビュー再表示
-        Route::post('review/{reviewdetail}/open', [RegistrationController::class, 'reviewopen'])->name('open.review');
-        // 店舗ユーザーのレビュー詳細画面
-        Route::get('/review/{reviewdetail}/detail/myshop', [DisplayController::class, 'myshopreviewdetail'])->name('myshopreviewdetail');
+        // レビュー編集画面へ
+        Route::get('update/{reviewdetail}/display', [DisplayController::class, 'update'])->name('update');
+        Route::post('update/{reviewdetail}/review', [RegistrationController::class, 'reviewupdate'])->name('update.review');
     });
 
     Route::group(['middleware' => 'can:view,user'], function () {
@@ -86,7 +83,12 @@ Route::group(['middleware' => 'auth'], function () {
         // 利用再開機能
         Route::post('/user/{user}/up', [RegistrationController::class, 'userup'])->name('user.up');
     });
-
+    // レビュー非表示機能
+    Route::post('review/{reviewdetail}/hide', [RegistrationController::class, 'reviewhide'])->name('hide.review');
+    // レビュー再表示
+    Route::post('review/{reviewdetail}/open', [RegistrationController::class, 'reviewopen'])->name('open.review');
+    // 店舗ユーザーのレビュー詳細画面
+    Route::get('/review/{reviewdetail}/detail/myshop', [DisplayController::class, 'myshopreviewdetail'])->name('myshopreviewdetail');
     // 新規レビュー作成遷移
     Route::get('/reviewpost/{shopdetail}/page', [DisplayController::class, 'newreview'])->name('newreview');
     // 新規レビュー作成
@@ -99,6 +101,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/shoppost/page', [DisplayController::class, 'newshop'])->name('shop.post');
     // 自店舗レビュー一覧へ
     Route::get('myshop/review/page', [DisplayController::class, 'shopreview'])->name('shop.review');
+    // 自店舗編集画面へ
+    Route::get('myshop/update/page', [DisplayController::class, 'shopupdate'])->name('shop.update');
+    // 自店舗編集
+    Route::post('update/{shopdetail}/shop', [RegistrationController::class, 'shopupdate'])->name('update.shop');
     // 新店舗登録
     Route::post('shop/pist/page', [RegistrationController::class, 'postshop'])->name('newshop.post');
     // ユーザーリストへ
@@ -107,7 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('review/list/page', [DisplayController::class, 'reviewlist'])->name('review.list');
     // 違反報告機能
     Route::post('/violation/report/page', [RegistrationController::class, 'violationreport'])->name('violation.report');
-
-    // ブックマーク機能
-    Route::post('/ajaxlike/page', [RegistrationController::class, 'ajaxlike'])->name('reviews.ajaxlike');
+    // ブックマーク機能    
+    Route::post('/ajaxlike', [RegistrationController::class, 'ajaxLike'])->name('ajaxlike');
+    Route::get('/getBookmarkStatus', [RegistrationController::class, 'BookmarkStatus'])->name('BookmarkStatus');
 });

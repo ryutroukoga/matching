@@ -33,7 +33,7 @@
                     <tr>
                         <th>
                             <a href="{{ route('userprofile') }}">
-                                <button type="button" class="btn btn-primary btn-sm">登録内容編集・退会</button>
+                                <button type="button" class="btn btn-primary btn-sm">メールアドレス編集・退会</button>
                             </a>
                         </th>
                     </tr>
@@ -54,19 +54,17 @@
         @foreach($reviews as $review)
         <div class="col">
             <div class="card" style="width: 18rem;">
-                <img src="{{ asset('storage/' . $review->image) }}" class="card-img-top" alt="画像なし">
+                <img src="{{ asset('storage/' . $review->image) }}" class="card-img-top img-fluid img-thumbnail" alt="画像なし">
                 <div class="card-body">
+                    <input type="hidden" class="review-id" value="{{ $review['id'] }}">
                     <p class="card-text">
                         評価：{{ $review['score'] }}<br>
                         タイトル：{{ $review['title'] }}<br>
                         <a href="{{ route('reviewdetail',['reviewdetail' => $review['id']]) }}">詳細</a>
-                        <button class="btn btn-lg bookmark-toggle" data-review-id="{{ $review['id'] }}">
-                            @if(auth()->user()->bookmarks()->where('review_id', $review['id'])->exists())
-                            <i class="fas fa-star text-warning"></i>
-                            @else
-                            <i class="far fa-star text-warning"></i>
-                            @endif
+                        <button type="button" class="btn bookmark-btn {{ $review->bookmarked ? 'bookmarked' : '' }}">
+                            <i class="bi {{ $review->bookmarked ? 'bi-star-fill' : 'bi-star' }}"></i>
                         </button>
+
                     </p>
                 </div>
             </div>
@@ -78,9 +76,36 @@
     </div>
 </main>
 @endsection
-@push('scripts')
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-    var bookmarkUrl = "{{ route('reviews.ajaxlike') }}";
+    $(function() {
+        $('.bookmark-btn').click(function() {
+            const review_id = $(this).closest('.card-body').find('.review-id').val();
+            const button = $(this);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{ route("ajaxlike") }}',
+                type: 'POST',
+                data: {
+                    'review_id': review_id
+                },
+                success: function(data) {
+                    if (data.bookmarked) {
+                        button.addClass('bookmarked').find('i').removeClass('bi-star').addClass('bi-star-fill');
+                    } else {
+                        button.removeClass('bookmarked').find('i').removeClass('bi-star-fill').addClass('bi-star');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('エラー: ' + error);
+                }
+            });
+        });
+    });
 </script>
-<script src="{{ asset('js/_ajaxlike.js') }}"></script>
-@endpush

@@ -1,0 +1,11 @@
+.bookmark-btn i {
+    color: grey;
+}
+
+.bookmark-btn.bookmarked i {
+    color: yellow;
+}
+
+.bookmark-btn.bookmarked {
+    color: yellow;
+}

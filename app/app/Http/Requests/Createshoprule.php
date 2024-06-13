@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateShop extends FormRequest
+class Createshoprule extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,6 @@ class CreateShop extends FormRequest
             'name' => 'required',
             'address' => 'required',
             'comment' => 'required',
-            'formfile'=> 'required',
         ];
     }
 }

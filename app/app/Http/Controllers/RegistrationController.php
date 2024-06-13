@@ -10,6 +10,7 @@ use App\Http\Requests\CreatePass;
 use App\Http\Requests\CreateProfile;
 use App\Http\Requests\CreateReview;
 use App\Http\Requests\CreateShop;
+use App\Http\Requests\Createshoprule;
 use App\Http\Requests\CreateUser;
 use App\User;
 use App\Review;
@@ -68,9 +69,14 @@ class RegistrationController extends Controller
         $newreview->comment = $request->comment;
         $newreview->score = $request->score;
         $newreview->shop_id = $request->shop_id;
-        $newreview->image = $request->image;
+
+        if ($request->hasFile('formfile')) {
+            $imagePath = $request->file('formfile')->store('shops', 'public');
+            $newreview->image = $imagePath;
+        }
+
         Auth::user()->reviews()->save($newreview);
-        return redirect('/');
+        return redirect()->route('shopdetail', ['shopdetail' => $request->shop_id]);
     }
     // レビュー削除機能
     public function reviewdelete(Review $reviewdetail)
@@ -78,11 +84,26 @@ class RegistrationController extends Controller
         $reviewdetail->delete();
         return redirect('profile');
     }
+    // レビュー編集機能
+    public function reviewupdate(Review $reviewdetail, CreateReview $request)
+    {
+        $columns = ['title', 'score', 'comment'];
+
+        foreach ($columns as $column) {
+            $reviewdetail->$column = $request->$column;
+        }
+        if ($request->hasFile('formfile')) {
+            $imagePath = $request->file('formfile')->store('shops', 'public');
+            $reviewdetail->image = $imagePath;
+        }
+
+        Auth::user()->reviews()->save($reviewdetail);
+        return redirect('profile');
+    }
     // ユーザー編集機能
     public function userupdate(CreateProfile $request)
     {
         $user = Auth::user();
-        $user->name = $request->name;
         $user->email = $request->email;
         $user->save();
         return redirect('profile')->with('success', 'プロフィールが更新されました');
@@ -144,6 +165,22 @@ class RegistrationController extends Controller
         // リダイレクト
         return redirect()->route('shop.main');
     }
+    // 店舗編集
+    public function shopupdate(Shop $shopdetail, Createshoprule $request)
+    {
+        $columns = ['name', 'address', 'comment'];
+
+        foreach ($columns as $column) {
+            $shopdetail->$column = $request->$column;
+        }
+        if ($request->hasFile('formfile')) {
+            $imagePath = $request->file('formfile')->store('shops', 'public');
+            $shopdetail->image = $imagePath;
+        }
+
+        Auth::user()->shops()->save($shopdetail);
+        return redirect('/');
+    }
     // 違反報告
     public function violationreport(Request $request)
     {
@@ -152,7 +189,12 @@ class RegistrationController extends Controller
         $violation->review_id = $request->review_id;
         $violation->user_id = $request->user_id;
         $violation->save();
-        return redirect()->back();
+        if ($request->user()->role == 0) {
+            return redirect()->route('shopdetail', ['shopdetail' => $request->shop_id]);
+        } else {
+            // return redirect()->route('myshopreviewdetail', ['reviewdetail' => $request->review_id]);
+            return redirect()->route('shop.review', ['shopdetail' => $request->shop_id]);
+        }
     }
     // ユーザーの利用停止
     public function userdown(User $user)
@@ -187,7 +229,7 @@ class RegistrationController extends Controller
         $reviewdetail->save();
         return redirect()->back();
     }
-
+    // ブックマーク機能
     public function ajaxlike(Request $request)
     {
         $user_id = Auth::id();
@@ -207,4 +249,5 @@ class RegistrationController extends Controller
 
         return response()->json(['bookmarked' => $bookmarked]);
     }
+
 }

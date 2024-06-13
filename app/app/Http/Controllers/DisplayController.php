@@ -36,8 +36,15 @@ class DisplayController extends Controller
     // プロフィール画面遷移
     public function profile()
     {
-        $review = Auth::user()->reviews()->get();
-        $reviews = $review->paginate(5);
+        $user = Auth::user();
+        $reviews = Review::where('user_id', $user->id)->paginate(5);
+
+        // レビューに対してブックマーク確認
+        foreach ($reviews as $review) {
+            $review->bookmarked = Bookmark::where('review_id', $review->id)
+                ->where('user_id', $user->id)
+                ->exists();
+        }
 
         return view('profile', ['reviews' => $reviews]);
     }
@@ -77,7 +84,6 @@ class DisplayController extends Controller
     // ユーザー編集・退会画面へ
     public function userprofile()
     {
-        // $users = Auth::user()->get();
         return view('user');
     }
     // プロフィール編集画面遷移
@@ -115,7 +121,11 @@ class DisplayController extends Controller
     {
         return view('violation', ['detail' => $reviewdetail]);
     }
-
+    // レビュー編集画面へ
+    public function update(Review $reviewdetail)
+    {
+        return view('update_review', ['detail' => $reviewdetail]);
+    }
     // ---------------------------------------------------------------------------
     // 店舗アカウント登録画面
     public function shoplogin()
@@ -125,7 +135,8 @@ class DisplayController extends Controller
     // shopメイン表示
     public function shophome()
     {
-        return view('shop_main');
+        $shop = Shop::where('user_id', auth()->id())->exists();
+        return view('shop_main', ['shop' => $shop]);
     }
     // 店舗新規追加画面
     public function newshop()
@@ -157,6 +168,15 @@ class DisplayController extends Controller
             'user' => $user,
         ]);
     }
+
+    // 自店舗編集画面へ
+    public function shopupdate()
+    {
+        $user_id = Auth::user()->id;
+        $shop = Shop::where('user_id', $user_id)->first();
+        return view('shop_update', ['detail' => $shop]);
+    }
+
     // 違反報告画面遷移
     public function shopviolation(Review $reviewdetail)
     {

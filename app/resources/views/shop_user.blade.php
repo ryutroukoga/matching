@@ -36,7 +36,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="password-confirm">パスワード再入力</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="パスワード再度入力">
+                    <input type="password" class="form-control" id="password-confirm" name="password_confirmation" placeholder="パスワード再度入力">
                 </div>
                 <div class="text-center">
                     <div class="mb-3">
