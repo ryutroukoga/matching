@@ -191,9 +191,8 @@ class DisplayController extends Controller
     // ユーザーリストへ
     public function userlist()
     {
-        $users = User::where('role', 0)->withCount(['reviews' => function ($query) {
-            $query->where('del_flg', 1);
-        }])->orderBy('reviews_count', 'desc')
+        $users = User::where('role', 0)
+            ->orderBy('display', 'desc')
             ->paginate(10);
         return view('user_list', ['users' => $users]);
     }

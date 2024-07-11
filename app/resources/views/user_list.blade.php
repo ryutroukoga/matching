@@ -14,8 +14,8 @@
             <tr>
                 @foreach ($users as $user)
             <tr>
-                <td>{{ $user['name']}}</td>
-                <td>{{ $user->reviews_count }}</td>
+                <td>{{ $user['name'] }}</td>
+                <td>{{ $user['display'] }}</td>
                 <th scope="row">
                     @if ($user->stop_flg == 0)
                     <form action="{{ route('user.down', ['user' => $user['id']]) }}" method="POST" onsubmit="return confirmstop()">
@@ -23,7 +23,7 @@
                         <button type='submit' class="btn btn-danger btn-sm">利用停止</button>
                     </form>
                     @else
-                    <form action="{{ route('user.up', $user->id) }}" method="POST" onsubmit="return confirmup()">
+                    <form action="{{ route('user.up', [$user['id']]) }}" method="POST" onsubmit="return confirmup()">
                         @csrf
                         <button type='submit' class="btn btn-success btn-sm">利用再開</button>
                     </form>

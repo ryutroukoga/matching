@@ -192,7 +192,7 @@ class RegistrationController extends Controller
         if ($request->user()->role == 0) {
             return redirect()->route('shopdetail', ['shopdetail' => $request->shop_id]);
         } else {
-            // return redirect()->route('myshopreviewdetail', ['reviewdetail' => $request->review_id]);
+        
             return redirect()->route('shop.review', ['shopdetail' => $request->shop_id]);
         }
     }
@@ -218,7 +218,6 @@ class RegistrationController extends Controller
         // レビューを投稿したユーザーのdisplayカラムの値を増加させる
         $user = $reviewdetail->user;
         $user->increment('display');
-        $user->save();
 
         return redirect()->back();
     }
@@ -227,6 +226,9 @@ class RegistrationController extends Controller
     {
         $reviewdetail->del_flg = 0;
         $reviewdetail->save();
+        $user = $reviewdetail->user;
+        $user->decrement('display');
+
         return redirect()->back();
     }
     // ブックマーク機能
@@ -249,5 +251,4 @@ class RegistrationController extends Controller
 
         return response()->json(['bookmarked' => $bookmarked]);
     }
-
 }
