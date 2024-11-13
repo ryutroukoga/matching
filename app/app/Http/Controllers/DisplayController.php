@@ -19,14 +19,7 @@ class DisplayController extends Controller
             'posts' => $all,
         ]);
     }
-    public function mypage()
-    {
-        $post = new Post;
-        $all = $post->all();
-        return view('home', [
-            'posts' => $all,
-        ]);
-    }
+
     //ポスト詳細画面
     public function postall(int $postID)
     {
@@ -47,6 +40,23 @@ class DisplayController extends Controller
         $post = Post::findOrFail($postID); // IDが存在しない場合は404を返す
         return view('requestpost', compact('post'));
     }
+    //ユーザー編集から退会画面へ
+    public function userdelete1()
+    {
+        return view('userdelete');
+    }
+    
+    //マイページから依頼投稿画面
+    public function requestform()
+    {
+        return view('requestform');
+    }
+
+
+
+
+
+
 
     //ログイン画面へ
     public function login()
@@ -69,64 +79,4 @@ class DisplayController extends Controller
         return view('logingo');
     }
 
-    public function a()
-    {
-        return view('requestformedit');
-    }
-
-
-
-
-
-    // //パスワードリセット
-    // // メールドレス入力画面
-    // public function passwordreset()
-    // {
-    //     return view('password');
-    // }
-
-    // // パスワードリセットリンクをメールで送信
-    // public function sendResetLink(Request $request)
-    // {
-    //     // バリデーション
-    //     $request->validate(['email' => 'required|email']);
-    //     // リセットリンクを送信
-    //     $response = Password::sendResetLink($request->only('email'));
-    //     // 成功メッセージ
-    //     if ($response == Password::RESET_LINK_SENT) {
-    //         return back()->with('status', trans($response));
-    //     }
-    //     // エラーメッセージ
-    //     return back()->withErrors(['email' => trans($response)]);
-    // }
-
-    // // パスワード変更フォームを表示
-    // public function showResetForm(Request $request, $token)
-    // {
-    //     return view('newpass')->with(['token' => $token, 'email' => $request->email]);
-    // }
-
-    // // パスワードをリセット
-    // public function resetPassword(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required|confirmed',
-    //         'token' => 'required'
-    //     ]);
-
-    //     // パスワードリセットを実行
-    //     $response = Password::reset($request->only('email', 'password', 'password_confirmation', 'token'), function ($user, $password) {
-    //         $user->password = Hash::make($password);
-    //         $user->save();
-    //     });
-
-    //     // 成功メッセージ
-    //     if ($response == Password::PASSWORD_RESET) {
-    //         return redirect()->route('login')->with('status', trans($response));
-    //     }
-
-    //     // エラーメッセージ
-    //     return back()->withErrors(['email' => trans($response)]);
-    // }
 }
