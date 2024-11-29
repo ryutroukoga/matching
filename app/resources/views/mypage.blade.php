@@ -6,8 +6,9 @@
         <nav class="card mt-5 nav-card">
             <div class="d-flex justify-content-around">
                 <div class="p-2">
-                    <img src="https://via.placeholder.com/80" alt="ユーザー名" class="user-image">
+                    <img src="{{ asset($user->image) }}" style="width: 100px; height: 100px; object-fit: cover;">
                 </div>
+
                 <table>
                     <tbody>
                         <tr>
@@ -30,9 +31,11 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="{{ route('user.edit') }}">
+                <a href="{{ route('user.edit') }}" class="d-flex align-items-center justify-content-center">
                     <button type="button" class="btn btn-warning">編集・退会</button>
                 </a>
+
+
             </div>
 
             <hr class="custom-hr">
@@ -41,7 +44,9 @@
                 @foreach($posts as $post)
                 <a href="{{ route('requestform.edit', $post->id) }}" class="text-decoration-none">
                     <div class="card">
-                        <img src="{{ $post->image }}" class="card-img-top" alt="...">
+                        <div class="p-2" style="display: flex; justify-content: center; align-items: center;">
+                            <img src="{{ asset($post->image) }}" style="width: 100px; height: 100px; object-fit: cover;" class="card-img-top">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text">{{ $post->detail }}</p>

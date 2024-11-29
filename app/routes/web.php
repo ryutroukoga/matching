@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,23 +24,22 @@ Auth::routes();
 //ホーム画面
 Route::get('/', [DisplayController::class, 'index'])->name('home');
 Route::post('/', [DisplayController::class, 'index'])->name('home');
+// 無限スクロール
+Route::get('/load-more-posts', [DisplayController::class, 'loadMorePosts'])->name('loadMorePosts');
 //新規登録画面へ遷移
 Route::get('/signnew', [DisplayController::class, 'signnew'])->name('sign.new');
 //新規登録確認画面へ遷移
 Route::post('/signcheck', [RegistrationController::class, 'signcheck'])->name('sign.check');
 //確認画面からホーム画面（DB保存）
 Route::post('/sign', [RegistrationController::class, 'sign'])->name('sign');
-//パスワード再設定
-// パスワードリセットリクエストを表示するGETルート
-Route::get('/password/reset', [DisplayController::class, 'passwordreset'])->name('password.reset');
-// パスワードリセットリンクをメールで送信するPOSTルート
-Route::post('/password/reset', [DisplayController::class, 'sendResetLink'])->name('reset.mail');
-// パスワード変更フォームを表示するGETルート
-Route::get('/password/reset/{token}', [DisplayController::class, 'showResetForm'])->name('password.reset.token');
-// パスワード変更を処理するPOSTルート
-Route::post('/password/reset/{token}', [DisplayController::class, 'resetPassword'])->name('password.update');
+//検索機能
+Route::post('/search', [RegistrationController::class, 'search'])->name('search');
+//ログイン誘導
+Route::get('/logingo', [DisplayController::class, 'logingo'])->name('logingo');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/admin', [DisplayController::class, 'kanri'])->name('kanri');
+    //マイページ表示
     Route::get('/mypage', [RegistrationController::class, 'mypage'])->name('mypage');
     //ポスト詳細画面
     Route::get('/post/{id}/detail', [DisplayController::class, 'postall'])->name('post.all');
@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/post/{id}/danger', [DisplayController::class, 'dangerpost'])->name('danger.post');
     //違反報告画面からホーム画面（DB登録）
     Route::post('/post/danger2', [RegistrationController::class, 'dangerpost2'])->name('danger.post2');
-    //詳細から戻るボタン
+    //詳細から申請入力画面
     Route::get('/request/{id}/post', [DisplayController::class, 'request'])->name('request.post');
     //依頼申請から確認画面
     Route::post('/request/check', [RegistrationController::class, 'requestcheck'])->name('request.check');
@@ -76,13 +76,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/alluser', [RegistrationController::class, 'alluser'])->name('alluser');
     //投稿一覧からユーザー詳細画面
     Route::get('/user/{userId}', [RegistrationController::class, 'userdetail'])->name('user.detail');
-
+    //ユーザー利用停止
+    Route::post('/user/stop/{id}', [RegistrationController::class, 'userstop'])->name('user.stop');
     //管理画面から投稿一覧
     Route::get('/allpost', [RegistrationController::class, 'allpost'])->name('allpost');
     //投稿一覧から投稿詳細画面
     Route::get('/post/{postId}', [RegistrationController::class, 'kanripostdetail'])->name('kanripost.detail');
+    //投稿詳細から投稿表示停止
+    Route::get('/post/{postId}/stop', [RegistrationController::class, 'kanripoststop'])->name('kanripost.stop');
 });
-
-
-    //ログイン誘導
-    Route::get('/logingo', [DisplayController::class, 'logingo'])->name('logingo');

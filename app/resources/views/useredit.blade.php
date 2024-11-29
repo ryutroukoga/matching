@@ -9,15 +9,21 @@
                     <div class="card-title text-center large-text">編集・退会</div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('user.update') }}" method="POST">
+                    <form action="{{ route('user.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
 
                         <div class="d-flex justify-content-around">
-                            <img src="https://via.placeholder.com/60" alt="ユーザー名" class="user-image">
+                            <img src="{{ asset($user->image ?? 'https://via.placeholder.com/60') }}" class="user-image">
                         </div>
                         <br>
-
+                        <div class="d-flex justify-content-around">
+                            <label for="image" class="col-sm-2 col-form-label no-wrap space">プロフィール画像</label>
+                            <div class="col-sm-7">
+                                <input type="file" class="form-control" id="image" name="image">
+                            </div>
+                        </div>
+                        <br>
                         <div class="d-flex justify-content-around">
                             <label for="name" class="col-sm-2 col-form-label no-wrap space">ユーザー名</label>
                             <div class="col-sm-7">
@@ -32,18 +38,11 @@
                             </div>
                         </div>
                         <br>
-                        <div class="d-flex justify-content-around">
-                            <label for="password" class="col-sm-2 col-form-label no-wrap space">パスワード</label>
-                            <div class="col-sm-7">
-                                <input type="password" class="form-control" id="password" name="password" />
-                            </div>
-                        </div>
-                        <br>
-                        <br>
                         <div class="d-grid gap-2 col-3 mx-auto">
                             <button type="submit" class="btn btn-primary">変更する</button>
                         </div>
                     </form>
+
                     <form action="{{ route('user.delete1') }}" method="POST" class="mt-3">
                         @csrf
                         @method('POST')

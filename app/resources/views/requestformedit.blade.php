@@ -7,9 +7,10 @@
             <form action="{{ route('request.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="d-flex justify-content-around">
-                    <div class="p-2">
-                        <img src="https://via.placeholder.com/100" alt="ユーザー名" class="user-image">
+                    <div class="p-2" style="display: flex; justify-content: center; align-items: center;"  class="card-img-top">
+                        <img src="{{ asset($post->image) }}" style="width: 200px; height: 200px; object-fit: cover;" class="card-img-top">
                     </div>
+
                     <table class="table table-bordered narrow-table">
                         <tbody>
                             <tr>
@@ -32,9 +33,9 @@
                                 <td>ステータス</td>
                                 <td>
                                     <select name="status" class="form-control" required>
-                                        <option value="published" {{ $post->status == 'published' ? 'selected' : '' }}>掲載中</option>
-                                        <option value="in_progress" {{ $post->status == 'in_progress' ? 'selected' : '' }}>進行中</option>
-                                        <option value="completed" {{ $post->status == 'completed' ? 'selected' : '' }}>完了</option>
+                                        <option value="uplode" {{ $post->status == 'uplode' ? 'selected' : '' }}>掲載中</option>
+                                        <option value="move" {{ $post->status == 'move' ? 'selected' : '' }}>進行中</option>
+                                        <option value="done" {{ $post->status == 'done' ? 'selected' : '' }}>完了</option>
                                     </select>
                                 </td>
                             </tr>

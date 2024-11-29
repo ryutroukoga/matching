@@ -39,6 +39,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <input type="hidden" name="user_id" value="{{ $user_id }}">
+                <input type="hidden" name="post_id" value="{{ $post->id }}">
+
                 <br>
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary">確認画面へ</button>

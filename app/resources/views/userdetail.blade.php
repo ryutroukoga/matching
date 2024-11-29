@@ -5,11 +5,18 @@
     <div class="row justify-content-center">
         <nav class="card mt-5 nav-card">
             <div class="d-flex mb-3">
-                @foreach($users->posts as $post)
-                <div class="p-2"><img src="https://via.placeholder.com/80" alt="ユーザー名" class="user-image"></div>
-                <div class="p-2 large-text">{{ $post->users->name }}</div>
-                <div class="ms-auto p-2"><button type="button" class="btn btn-danger">ユーザー利用停止</button></div>
+                <div class="p-2">
+                    <img src="{{ asset($users->image) }}" style="width: 100px; height: 100px; object-fit: cover;"  class="card-img-top">
+                </div>
+                <div class="p-2 large-text">{{ $users->name }}</div>
+                <div class="ms-auto p-2">
+                    <form action="{{ route('user.stop', $users->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('本当にユーザーを利用停止にしますか？')">ユーザー利用停止</button>
+                    </form>
+                </div>
             </div>
+
             <br>
             <table class="table table-hover">
                 <thead>
@@ -23,8 +30,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($users->posts as $post)
                     <tr onclick="window.location='{{ route('kanripost.detail', $post->id) }}'">
-                        <td><img src="{{ $post->image }}" alt="{{ $post->users->name }}" class="user-image"></td>
+                        <td><img src="{{ asset($post->image) }}" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ $post->users->name }}" class="user-image"></td>
                         <td>{{ $post->title }}</td>
                         <td>{{ $post->detail }}</td>
                         <td>{{ $post->amount }}</td>
@@ -33,7 +41,6 @@
                     @endforeach
                 </tbody>
             </table>
-            <!-- 無限スクロール実装予定 -->
         </nav>
     </div>
 </div>

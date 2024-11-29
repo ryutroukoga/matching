@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body d-flex align-items-start">
                     <div class="p-2">
-                        <img src="{{ $post->image }}" alt="ユーザー名" class="user-image" style="width: 80px; height: auto;">
+                    <img src="{{ asset($post->image) }}" style="width: 100px; height: 100px; object-fit: cover;" class="card-img-top">
                     </div>
                     <div class="ms-3">
                         <p class="card-text large-text">{{ $post->title }}</p>

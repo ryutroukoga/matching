@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body d-flex align-items-start">
                     <div class="p-2">
-                        <img src="{{ $post->image }}" alt="ユーザー名" class="user-image" style="width: 80px; height: auto;">
+                        <img src="{{ asset($post->image) }}" style="width: 100px; height: 100px; object-fit: cover;" alt="{{ $post->users->name }}" class="user-image"></td>
                     </div>
                     <div class="ms-3">
                         <p class="card-text">{{ $post->amount }}</p>
@@ -24,7 +24,7 @@
             <br>
             <div class="d-flex justify-content-evenly">
                 <a href="{{ url()->previous() }}" class="btn btn-primary">戻る</a>
-                <a href="" class="btn btn-primary">表示停止する</a>
+                <a href="{{ route('kanripost.stop', $post->id) }}" class="btn btn-danger">表示停止する</a>
             </div>
         </nav>
     </div>
